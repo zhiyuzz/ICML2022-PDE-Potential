@@ -46,20 +46,18 @@ class OneDimNegative:
 
 class OneDimKT:
     # One-dimensional KT algorithm
-    # C: scaling constant
-    # Z: sufficient statistic; sum of coins before (excluding) time t, divided by sqrt(2t)
-    def __init__(self, C):
-        self.C = C
-        self.Z = 0
+    # eps: initial wealth; Wealth: current wealth; beta: betting fraction; prediction: bet
+    def __init__(self, eps):
+        self.Wealth = eps
+        self.beta = 0
+        self.prediction = 0
         self.t = 1
 
-    def __potential(self, x):
-        return self.C * np.exp(x ** 2)
-
     def get_prediction(self):
-        potential_diff = self.__potential(self.Z + 1 / np.sqrt(2 * self. t)) - self.__potential(self.Z - 1 / np.sqrt(2 * self. t))
-        return potential_diff / np.sqrt(self.t) / 2
+        self.prediction = self.beta * self.Wealth
+        return self.prediction
 
     def update(self, gt):
-        self.Z = (np.sqrt(2 * self.t) * self.Z - gt) / np.sqrt(2 * (self.t + 1))
+        self.Wealth = self.Wealth - gt * self.prediction
+        self.beta = (self.beta * self.t - gt) / (self.t + 1)
         self.t += 1
