@@ -1,16 +1,10 @@
 from matplotlib import pyplot as plt
-from Algorithms.Algorithms_1d import *
+from Algorithms.Algorithm_1d import *
 
 plt.rcParams['font.size'] = 14
 plt.rcParams['lines.linewidth'] = 3
 
-# Setting 1
-T = 200     # Time horizon
-C = 1       # Constant C
-
-# # Setting 2
-# T = 500     # Time horizon
-# C = 10      # Constant C
+C = 1   # Hyperparameter
 
 # Different settings of u_star
 settings = [0.1, 1, 10, 100, 1000, 10000]
@@ -18,6 +12,12 @@ settings = [0.1, 1, 10, 100, 1000, 10000]
 # Loss function l_t = |x_t-u_Star|
 for ind in range(len(settings)):
     u_star = settings[ind]
+
+    # Time horizon
+    if u_star >= 100:
+        T = 500
+    else:
+        T = 200
 
     # Create instances of different algorithms
     algorithms = {
@@ -66,9 +66,9 @@ for ind in range(len(settings)):
 
     # Plotting the results; for clarity, scale the vertical axis
     if u_star >= 100:
-        bound = bound / 1000
+        bound = bound / 10000
         for key in algorithms:
-            sum_losses[key] = sum_losses[key] / 1000
+            sum_losses[key] = sum_losses[key] / 10000
 
     plt.figure()
     plt.plot(np.arange(1, T + 1), sum_losses["pos"], '-', label=r"$\bar V_{1/2}$ (ours)")
@@ -79,9 +79,9 @@ for ind in range(len(settings)):
     plt.title(r"$u^*=$" + str(u_star))
     plt.xlabel('Time')
     if u_star >= 100:
-        plt.ylabel("Regret (x1000)")
+        plt.ylabel("Regret (x10000)")
     else:
         plt.ylabel("Regret")
     plt.legend()
 
-    plt.savefig("Figures/OneD_" + str(C) + "_" + str(ind + 1) + ".pdf", bbox_inches='tight')
+    plt.savefig("Figures/OneD_" + str(ind + 1) + ".pdf", bbox_inches='tight')
