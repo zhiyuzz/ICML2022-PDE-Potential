@@ -9,23 +9,29 @@ data = np.loadtxt("Data/Processed.txt", delimiter=',', max_rows=T)
 _, col = data.shape
 
 alg = HigherDimPositive(1, col - 1)
-predictions = np.empty(T)
 sum_losses = np.empty(T)
 
 for t in range(T):
 
-    # Get predictions
-    predictions[t] = alg.get_prediction()
+    # Get prediction from the OLO algorithm
+    prediction = alg.get_prediction()
+
+    # Get the features and target
+    target = data[t, 0]
+    feature = data[t, 1:]
+
+    # Compute the output of the model
+    output = prediction @ feature
 
     # Compute cumulative losses
     if t == 0:
-        sum_losses[t] = np.abs(predictions[t] - u_star)
+        sum_losses[t] = np.abs(output - target)
     else:
-        sum_losses[key][t] = np.abs(predictions[key][t] - u_star) + sum_losses[key][t - 1]
+        sum_losses[t] = np.abs(output - target) + sum_losses[t - 1]
 
     # Update
-    if predictions[key][t] >= u_star:
-        gt = 1
+    if output >= target:
+        gt = feature
     else:
-        gt = -1
-    algorithms[key].update(gt)
+        gt = -feature
+    alg.update(gt)
