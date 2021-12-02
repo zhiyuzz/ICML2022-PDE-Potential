@@ -1,5 +1,5 @@
-from Algorithm_1d import *
-from Algorithm_OGD import OGDBall
+from Algorithms.Algorithm_1d import *
+from Algorithms.Algorithm_OGD import OGDBall
 
 
 class HigherDimPositive:

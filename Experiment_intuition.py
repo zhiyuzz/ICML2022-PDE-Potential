@@ -10,12 +10,14 @@ u_star = 100  # Comparator
 
 algorithms = {
     "pos": OneDimPositive(C),
-    "neg": OneDimNegative(C)
+    "neg": OneDimNegative(C),
+    "KT": OneDimKT(np.sqrt(np.exp(1)) * C)
 }
 
 predictions = {
     "pos": np.empty(T),
-    "neg": np.empty(T)
+    "neg": np.empty(T),
+    "KT": np.empty(T)
 }
 
 for t in range(T):
@@ -34,6 +36,7 @@ plt.figure()
 plt.axhline(y=u_star, color='y', linestyle='--', label=r"$u^*$")
 plt.plot(np.arange(1, T + 1), predictions["pos"], '-', label=r"$\bar V_{1/2}$ (ours)")
 plt.plot(np.arange(1, T + 1), predictions["neg"], '-', label=r"$\bar V_{-1/2}$")
+plt.plot(np.arange(1, T + 1), predictions["KT"], '-', label="KT")
 
 plt.title(r"$u^*=$" + str(u_star) + r", $C$=1")
 plt.xlabel('Time')

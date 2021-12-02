@@ -23,7 +23,7 @@ for ind in range(len(settings)):
     algorithms = {
         "pos": OneDimPositive(C),
         "neg": OneDimNegative(C),
-        "KT": OneDimKT(np.exp(1) * C)
+        "KT": OneDimKT(np.sqrt(np.exp(1)) * C)
     }
 
     # Create arrays to store the predictions and cumulative losses
