@@ -5,24 +5,22 @@ plt.rcParams['font.size'] = 14
 plt.rcParams['lines.linewidth'] = 3
 
 # Time horizon
-T = 1000
-# data = np.loadtxt("Data/Processed.txt", max_rows=T)
+T = 10000
+data = np.loadtxt("Data/Processed.txt", max_rows=T)
+_, col = data.shape
+
+# data = np.loadtxt("Data/Processed_wine.txt")
+# T, col = data.shape
+
+# T = 20000
+# data = np.loadtxt("Data/Processed_superconductor.txt", max_rows=T)
 # _, col = data.shape
 
-col = 91
-data = np.empty([T, col])
-for row in range(T):
-    data[row, 0] = 2000
-    data[row, 1:] = np.ones(col - 1) / np.sqrt(col - 1)
+# Random index set
+rand_index = np.random.permutation(T)
 
 # Hyperparameter
 C = 1
-
-# Scaling factor of the loss
-gamma = 1
-
-# Shifting parameter representing the initial guess
-initial = 100 * np.ones(col - 1)
 
 algorithms = {
     "pos": HigherDimPositive(C, col - 1),
@@ -37,22 +35,24 @@ sum_losses = {
 }
 
 for t in range(T):
-    # Get the features and target
-    target = data[t, 0]
-    feature = data[t, 1:]
+    ind = rand_index[t]
+
+    # Get the features and target (0.001 and 0.01 are good for our algorithm)
+    target = data[ind, 0]
+    feature = data[ind, 1:]
 
     for key in algorithms:
         # Get prediction from the OLO algorithm
-        prediction = algorithms[key].get_prediction() + initial
+        prediction = algorithms[key].get_prediction()
 
         # Compute the output of the model
-        output = prediction @ feature / gamma
+        output = prediction @ feature
 
         # Compute cumulative losses
         if t == 0:
-            sum_losses[key][t] = gamma * np.abs(output - target)
+            sum_losses[key][t] = np.abs(output - target)
         else:
-            sum_losses[key][t] = gamma * np.abs(output - target) + sum_losses[key][t - 1]
+            sum_losses[key][t] = np.abs(output - target) + sum_losses[key][t - 1]
 
         # Update
         if output >= target:
