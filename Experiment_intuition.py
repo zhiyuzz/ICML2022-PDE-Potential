@@ -4,7 +4,7 @@ from Algorithms.Algorithm_1d import *
 plt.rcParams['font.size'] = 14
 plt.rcParams['lines.linewidth'] = 3
 
-T = 20     # Time horizon
+T = 40     # Time horizon
 C = 1      # Constant C
 u_star = 100  # Comparator
 

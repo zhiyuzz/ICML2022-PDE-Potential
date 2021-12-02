@@ -9,10 +9,11 @@ T = 1000
 # data = np.loadtxt("Data/Processed.txt", max_rows=T)
 # _, col = data.shape
 
-data = np.empty([T, 91])
+col = 91
+data = np.empty([T, col])
 for row in range(T):
     data[row, 0] = 2000
-    data[row, 1:] =
+    data[row, 1:] = np.ones(col - 1) / np.sqrt(col - 1)
 
 # Hyperparameter
 C = 1
@@ -21,7 +22,7 @@ C = 1
 gamma = 1
 
 # Shifting parameter representing the initial guess
-initial = np.zeros(col - 1)
+initial = 100 * np.ones(col - 1)
 
 algorithms = {
     "pos": HigherDimPositive(C, col - 1),
