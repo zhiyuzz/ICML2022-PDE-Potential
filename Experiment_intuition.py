@@ -10,7 +10,8 @@ u_star = 100  # Comparator
 
 algorithms = {
     "pos": OneDimPositive(C),
-    "neg": OneDimNegative(C),
+    # "neg": OneDimNegative(C),
+    "neg": OneDimNegWealth(np.sqrt(np.exp(1)) * C),
     "KT": OneDimKT(np.sqrt(np.exp(1)) * C)
 }
 
@@ -42,4 +43,4 @@ plt.title(r"$u^*=$" + str(u_star) + r", $C$=1")
 plt.xlabel('Time')
 plt.ylabel(r"Prediction $x_t$")
 plt.legend()
-plt.savefig("Figures/OneD_intuition.pdf", bbox_inches='tight')
+# plt.savefig("Figures/OneD_intuition.pdf", bbox_inches='tight')

@@ -15,14 +15,15 @@ for ind in range(len(settings)):
 
     # Time horizon
     if u_star >= 100:
-        T = 500
+        T = 50000
     else:
-        T = 200
+        T = 20000
 
     # Create instances of different algorithms
     algorithms = {
         "pos": OneDimPositive(C),
-        "neg": OneDimNegative(C),
+        # "neg": OneDimNegative(C),
+        "neg": OneDimNegWealth(np.sqrt(np.exp(1)) * C),
         "KT": OneDimKT(np.sqrt(np.exp(1)) * C)
     }
 
@@ -84,4 +85,4 @@ for ind in range(len(settings)):
         plt.ylabel("Regret")
     plt.legend()
 
-    plt.savefig("Figures/OneD_" + str(ind + 1) + ".pdf", bbox_inches='tight')
+    # plt.savefig("Figures/OneD_" + str(ind + 1) + ".pdf", bbox_inches='tight')

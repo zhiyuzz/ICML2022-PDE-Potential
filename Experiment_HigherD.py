@@ -5,8 +5,8 @@ plt.rcParams['font.size'] = 14
 plt.rcParams['lines.linewidth'] = 3
 
 # Time horizon
-T = 10000
-data = np.loadtxt("Data/Processed.txt", max_rows=T)
+T = 50000
+data = np.loadtxt("Data/Processed_music.txt", max_rows=T)
 _, col = data.shape
 
 # data = np.loadtxt("Data/Processed_wine.txt")
@@ -25,7 +25,7 @@ C = 1
 algorithms = {
     "pos": HigherDimPositive(C, col - 1),
     "neg": HigherDimNegative(C, col - 1),
-    "KT": HigherDimKT(np.sqrt(np.exp(1)) * C, col - 1)
+    "KT": HigherDimNegWealth(np.sqrt(np.exp(1)) * C, col - 1)
 }
 
 sum_losses = {
@@ -38,8 +38,8 @@ for t in range(T):
     ind = rand_index[t]
 
     # Get the features and target (0.001 and 0.01 are good for our algorithm)
-    target = data[ind, 0]
-    feature = data[ind, 1:]
+    target = data[ind, 0] * 10
+    feature = data[ind, 1:] / np.linalg.norm(data[ind, 1:])
 
     for key in algorithms:
         # Get prediction from the OLO algorithm
