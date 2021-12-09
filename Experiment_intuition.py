@@ -8,12 +8,19 @@ T = 20     # Time horizon
 C = 1      # Constant C
 u_star = 100  # Comparator
 
+# Setting 1; the baseline is the wealth version
 algorithms = {
     "pos": OneDimPositive(C),
-    # "neg": OneDimNegative(C),
-    "neg": OneDimNegWealth(np.sqrt(np.exp(1)) * C),
+    "neg": OneDimNegative(C),
     "KT": OneDimKT(np.sqrt(np.exp(1)) * C)
 }
+
+# Setting 2; the baseline is the potential version
+# algorithms = {
+#     "pos": OneDimPositive(C),
+#     "neg": OneDimNegWealth(np.sqrt(np.exp(1)) * C),
+#     "KT": OneDimKT(np.sqrt(np.exp(1)) * C)
+# }
 
 predictions = {
     "pos": np.empty(T),

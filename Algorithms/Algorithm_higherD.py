@@ -50,6 +50,7 @@ class HigherDimKT:
         self.A_B.update(gt)
 
 
+# Additional baseline: the wealth version of V_{-1/2}
 class HigherDimNegWealth:
     # d: dimension of the domain
     def __init__(self, C, d):

@@ -45,27 +45,6 @@ class OneDimNegative:
         self.t += 1
 
 
-class OneDimNegWealth:
-    def __init__(self, eps):
-        self.Wealth = eps
-        self.beta = 0
-        self.Z = 0
-        self.prediction = 0
-        self.t = 1
-
-    def get_prediction(self):
-        temp1 = np.exp((self.Z + 1 / np.sqrt(2 * self.t)) ** 2)
-        temp2 = np.exp((self.Z - 1 / np.sqrt(2 * self.t)) ** 2)
-        self.beta = (temp1 - temp2) / (temp1 + temp2)
-        self.prediction = self.beta * self.Wealth
-        return self.prediction
-
-    def update(self, gt):
-        self.Z = (np.sqrt(2 * self.t) * self.Z - gt) / np.sqrt(2 * (self.t + 1))
-        self.Wealth = self.Wealth - gt * self.prediction
-        self.t += 1
-
-
 # One-dimensional KT algorithm
 # eps: initial wealth; Wealth: current wealth; beta: betting fraction; prediction: bet
 class OneDimKT:
@@ -91,3 +70,25 @@ class OneDimKT:
 def potential_conjugate(x, C):
     guess = np.sqrt(np.log(1 + x / np.sqrt(2) / C))
     return fsolve(lambda z: np.sqrt(np.pi / 2) * C * special.erfi(z) - x, np.array([guess]))
+
+
+# Additional baseline: the wealth version of V_{-1/2}
+class OneDimNegWealth:
+    def __init__(self, eps):
+        self.Wealth = eps
+        self.beta = 0
+        self.Z = 0
+        self.prediction = 0
+        self.t = 1
+
+    def get_prediction(self):
+        temp1 = np.exp((self.Z + 1 / np.sqrt(2 * self.t)) ** 2)
+        temp2 = np.exp((self.Z - 1 / np.sqrt(2 * self.t)) ** 2)
+        self.beta = (temp1 - temp2) / (temp1 + temp2)
+        self.prediction = self.beta * self.Wealth
+        return self.prediction
+
+    def update(self, gt):
+        self.Z = (np.sqrt(2 * self.t) * self.Z - gt) / np.sqrt(2 * (self.t + 1))
+        self.Wealth = self.Wealth - gt * self.prediction
+        self.t += 1

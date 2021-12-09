@@ -13,16 +13,28 @@ settings = [0.1, 1, 10, 100, 1000, 10000]
 for ind in range(len(settings)):
     u_star = settings[ind]
 
-    # Time horizon
-    if u_star >= 100:
-        T = 50000
-    else:
-        T = 20000
+    # Time horizon; setting 1
+    # if u_star >= 100:
+    #     T = 500
+    # else:
+    #     T = 200
 
-    # Create instances of different algorithms
+    # Create instances of different algorithms; setting 1; baseline is the potential version
+    # algorithms = {
+    #     "pos": OneDimPositive(C),
+    #     "neg": OneDimNegative(C),
+    #     "KT": OneDimKT(np.sqrt(np.exp(1)) * C)
+    # }
+
+    # Time horizon; setting 2
+    if u_star >= 100:
+        T = 10000
+    else:
+        T = 4000
+
+    # Create instances of different algorithms; setting 2; baseline is the wealth version
     algorithms = {
         "pos": OneDimPositive(C),
-        # "neg": OneDimNegative(C),
         "neg": OneDimNegWealth(np.sqrt(np.exp(1)) * C),
         "KT": OneDimKT(np.sqrt(np.exp(1)) * C)
     }
