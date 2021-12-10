@@ -4,19 +4,9 @@ from Algorithms.Algorithm_higherD import *
 plt.rcParams['font.size'] = 14
 plt.rcParams['lines.linewidth'] = 3
 
-# Dataset 1
 T = 50000
 data = np.loadtxt("Data/Processed_music_scaled.txt", max_rows=T)
 _, col = data.shape
-
-# Dataset 2
-# data = np.loadtxt("Data/Processed_wine.txt")
-# T, col = data.shape
-
-# Dataset 3
-# T = 20000
-# data = np.loadtxt("Data/Processed_superconductor.txt", max_rows=T)
-# _, col = data.shape
 
 # Hyperparameter
 C = 1

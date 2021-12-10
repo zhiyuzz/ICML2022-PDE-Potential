@@ -51,17 +51,17 @@ class HigherDimKT:
 
 
 # Additional baseline: the wealth version of V_{-1/2}
-class HigherDimNegWealth:
-    # d: dimension of the domain
-    def __init__(self, C, d):
-        self.A_r = OneDimNegWealth(C)
-        self.A_B = OGDBall(d)
-        self.zt = np.empty(d)
-
-    def get_prediction(self):
-        self.zt = self.A_B.get_prediction()
-        return self.A_r.get_prediction() * self.zt
-
-    def update(self, gt):
-        self.A_r.update(gt @ self.zt)
-        self.A_B.update(gt)
+# class HigherDimNegWealth:
+#     # d: dimension of the domain
+#     def __init__(self, C, d):
+#         self.A_r = OneDimNegWealth(C)
+#         self.A_B = OGDBall(d)
+#         self.zt = np.empty(d)
+#
+#     def get_prediction(self):
+#         self.zt = self.A_B.get_prediction()
+#         return self.A_r.get_prediction() * self.zt
+#
+#     def update(self, gt):
+#         self.A_r.update(gt @ self.zt)
+#         self.A_B.update(gt)

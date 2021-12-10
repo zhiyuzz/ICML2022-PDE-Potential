@@ -4,7 +4,7 @@ from Algorithms.Algorithm_1d import *
 plt.rcParams['font.size'] = 14
 plt.rcParams['lines.linewidth'] = 3
 
-C = 1   # Hyperparameter
+C = 10   # Hyperparameter
 
 # Different settings of u_star
 settings = [0.1, 1, 10, 100, 1000, 10000]
@@ -13,29 +13,16 @@ settings = [0.1, 1, 10, 100, 1000, 10000]
 for ind in range(len(settings)):
     u_star = settings[ind]
 
-    # Time horizon; setting 1
-    # if u_star >= 100:
-    #     T = 500
-    # else:
-    #     T = 200
-
-    # Create instances of different algorithms; setting 1; baseline is the potential version
-    # algorithms = {
-    #     "pos": OneDimPositive(C),
-    #     "neg": OneDimNegative(C),
-    #     "KT": OneDimKT(np.sqrt(np.exp(1)) * C)
-    # }
-
-    # Time horizon; setting 2
+    # Time horizon
     if u_star >= 100:
-        T = 10000
+        T = 1000
     else:
-        T = 4000
+        T = 500
 
-    # Create instances of different algorithms; setting 2; baseline is the wealth version
+    # Create instances of different algorithms
     algorithms = {
         "pos": OneDimPositive(C),
-        "neg": OneDimNegWealth(np.sqrt(np.exp(1)) * C),
+        "neg": OneDimNegative(C),
         "KT": OneDimKT(np.sqrt(np.exp(1)) * C)
     }
 
@@ -95,6 +82,6 @@ for ind in range(len(settings)):
         plt.ylabel("Regret (x10000)")
     else:
         plt.ylabel("Regret")
-    plt.legend()
+    plt.legend(loc="upper left")
 
-    # plt.savefig("Figures/OneD_" + str(ind + 1) + ".pdf", bbox_inches='tight')
+    plt.savefig("Figures/OneD_Setting2_" + str(ind + 1) + ".pdf", bbox_inches='tight')
