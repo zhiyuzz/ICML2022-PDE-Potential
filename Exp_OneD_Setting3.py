@@ -8,17 +8,17 @@ plt.rcParams['lines.linewidth'] = 3
 scale_format = ScalarFormatter(useMathText=True)
 scale_format.set_powerlimits((0, 0))
 
-C = 10   # Hyperparameter
+C = 1   # Hyperparameter
+u_star = 10000
 
-# Different settings of u_star
-settings = [0.1, 1, 10, 100, 1000, 10000]
+# Different settings of time horizon
+settings = [100, 1000, 100000]
 
 # Loss function l_t = |x_t-u_Star|
 for ind in range(len(settings)):
-    u_star = settings[ind]
 
     # Time horizon
-    T = 500
+    T = settings[ind]
 
     # Create instances of different algorithms
     algorithms = {
@@ -73,9 +73,9 @@ for ind in range(len(settings)):
 
     plt.gca().yaxis.set_major_formatter(scale_format)
 
-    plt.title(r"$u^*=$" + str(u_star))
+    plt.title(r"$u^*=10000$")
     plt.xlabel('Time')
     plt.ylabel("Regret")
     plt.legend(loc="upper left")
 
-    plt.savefig("Figures/OneD_Setting2_" + str(ind + 1) + ".pdf", bbox_inches='tight')
+    plt.savefig("Figures/OneD_Setting3_" + str(ind + 1) + ".pdf", bbox_inches='tight')

@@ -1,8 +1,12 @@
 from matplotlib import pyplot as plt
+from matplotlib.ticker import ScalarFormatter
 from Algorithms.Algorithm_1d import *
 
 plt.rcParams['font.size'] = 14
 plt.rcParams['lines.linewidth'] = 3
+
+scale_format = ScalarFormatter(useMathText=True)
+scale_format.set_powerlimits((0, 0))
 
 C = 1   # Hyperparameter
 
@@ -14,10 +18,7 @@ for ind in range(len(settings)):
     u_star = settings[ind]
 
     # Time horizon
-    if u_star >= 100:
-        T = 500
-    else:
-        T = 200
+    T = 500
 
     # Create instances of different algorithms
     algorithms = {
@@ -64,24 +65,17 @@ for ind in range(len(settings)):
     for t in range(T):
         bound[t] = C * np.sqrt(t + 1) * np.exp(instrumental ** 2)
 
-    # Plotting the results; for clarity, scale the vertical axis
-    if u_star >= 100:
-        bound = bound / 10000
-        for key in algorithms:
-            sum_losses[key] = sum_losses[key] / 10000
-
     plt.figure()
     plt.plot(np.arange(1, T + 1), sum_losses["pos"], '-', label=r"$\bar V_{1/2}$ (ours)")
     plt.plot(np.arange(1, T + 1), sum_losses["neg"], '-', label=r"$\bar V_{-1/2}$")
     plt.plot(np.arange(1, T + 1), sum_losses["KT"], '-', label="KT")
     plt.plot(np.arange(1, T + 1), bound, '--', label="Upper bound")
 
+    plt.gca().yaxis.set_major_formatter(scale_format)
+
     plt.title(r"$u^*=$" + str(u_star))
     plt.xlabel('Time')
-    if u_star >= 100:
-        plt.ylabel("Regret (x10000)")
-    else:
-        plt.ylabel("Regret")
+    plt.ylabel("Regret")
     plt.legend(loc="upper left")
 
     plt.savefig("Figures/OneD_Setting1_" + str(ind + 1) + ".pdf", bbox_inches='tight')
