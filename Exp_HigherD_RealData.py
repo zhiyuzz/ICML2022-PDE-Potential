@@ -1,8 +1,12 @@
 from matplotlib import pyplot as plt
+from matplotlib.ticker import ScalarFormatter
 from Algorithms.Algorithm_higherD import *
 
 plt.rcParams['font.size'] = 14
 plt.rcParams['lines.linewidth'] = 3
+
+scale_format = ScalarFormatter(useMathText=True)
+scale_format.set_powerlimits((0, 0))
 
 T = 50000
 data = np.loadtxt("Data/Processed_music_scaled.txt", max_rows=T)
@@ -24,25 +28,20 @@ rng = np.random.default_rng(1)
 for setting in range(len(settings)):
     scaling = settings[setting]
 
-    algorithms = {
-        "pos": HigherDimPositive(C, col - 1),
-        "neg": HigherDimNegative(C, col - 1),
-        "KT": HigherDimKT(np.sqrt(np.exp(1)) * C, col - 1)
-    }
-
     sum_losses = {
         "pos": np.empty([reps, T]),
         "neg": np.empty([reps, T]),
         "KT": np.empty([reps, T])
     }
 
-    sum_losses_mean = {
-        "pos": np.empty(T),
-        "neg": np.empty(T),
-        "KT": np.empty(T)
-    }
-
     for rep in range(reps):
+        # Reinitialize algorithms
+        algorithms = {
+            "pos": HigherDimPositive(C, col - 1),
+            "neg": HigherDimNegative(C, col - 1),
+            "KT": HigherDimKT(np.sqrt(np.exp(1)) * C, col - 1)
+        }
+
         # Random index set
         rand_index = rng.permutation(T)
 
@@ -73,18 +72,16 @@ for setting in range(len(settings)):
                     gt = -feature
                 algorithms[key].update(gt)
 
-    # Compute the mean of the cumulative losses
-    for key in algorithms:
-        sum_losses_mean[key] = np.mean(sum_losses[key], axis=0)
-
     plt.figure()
-    plt.plot(np.arange(1, T + 1), sum_losses_mean["pos"], '-', label=r"$\bar V_{1/2}$ (ours)")
-    plt.plot(np.arange(1, T + 1), sum_losses_mean["neg"], '-', label=r"$\bar V_{-1/2}$")
-    plt.plot(np.arange(1, T + 1), sum_losses_mean["KT"], '-', label="KT")
-    plt.legend()
+    plt.plot(np.arange(1, T + 1), np.mean(sum_losses["pos"], axis=0), '-', label=r"$\bar V_{1/2}$ (ours)")
+    plt.plot(np.arange(1, T + 1), np.mean(sum_losses["neg"], axis=0), '-', label=r"$\bar V_{-1/2}$")
+    plt.plot(np.arange(1, T + 1), np.mean(sum_losses["KT"], axis=0), '-', label="KT")
+
+    plt.gca().yaxis.set_major_formatter(scale_format)
 
     plt.xlabel('Time')
     plt.ylabel("Cumulative loss")
     plt.title(r"$\gamma=$" + str(settings[setting]))
-    plt.savefig("Figures/HigherD_" + str(setting + 1) + ".pdf", bbox_inches='tight')
+    plt.legend(loc="upper left")
 
+    plt.savefig("Figures/HigherD_" + str(setting + 1) + ".pdf", bbox_inches='tight')
