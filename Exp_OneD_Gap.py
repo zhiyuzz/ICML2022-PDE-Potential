@@ -1,5 +1,4 @@
 from matplotlib import pyplot as plt
-from matplotlib.ticker import ScalarFormatter
 from Algorithms.Algorithm_1d import *
 
 plt.rcParams['font.size'] = 14
@@ -62,5 +61,11 @@ for ind in range(len(settings)):
         final_sum[key][ind] = sum_losses[key]
 
 plt.figure()
-plt.plot(settings, final_sum["neg"] - final_sum["pos"], linestyle='--', marker='o')
+plt.plot(settings, final_sum["KT"] - final_sum["pos"], linestyle='--', marker='o')
 plt.xscale("log")
+
+plt.xlabel(r"$u^*$ (log scale)")
+plt.ylabel("Saved regret compared to KT")
+plt.title(r"$T=500$")
+
+plt.savefig("Figures/OneD_Gap.pdf", bbox_inches='tight')
