@@ -61,7 +61,9 @@ for ind in range(len(settings)):
         final_sum[key][ind] = sum_losses[key]
 
 plt.figure()
-plt.plot(settings, final_sum["KT"] - final_sum["pos"], linestyle='--', marker='o')
+plt.plot(settings, final_sum["KT"] - final_sum["pos"], linestyle='--', marker='o', label=r"$\bar V_{1/2}$ (ours)")
+# plt.plot(settings, final_sum["KT"] - final_sum["neg"], linestyle='--', marker='o', label=r"$\bar V_{-1/2}$")
+# plt.legend(loc="upper left")
 plt.xscale("log")
 
 plt.xlabel(r"$u^*$ (log scale)")
