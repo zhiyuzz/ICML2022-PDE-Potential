@@ -9,10 +9,10 @@ scale_format = ScalarFormatter(useMathText=True)
 scale_format.set_powerlimits((0, 0))
 
 C = 1   # Hyperparameter
-u_star = 10000
+u_star = 0.3
 
 # Different settings of time horizon
-settings = [100, 1000, 100000]
+settings = [500, 10000, 200000]
 
 # Loss function l_t = |x_t-u_Star|
 for ind in range(len(settings)):
@@ -73,7 +73,7 @@ for ind in range(len(settings)):
 
     plt.gca().yaxis.set_major_formatter(scale_format)
 
-    plt.title(r"$u^*=10000$")
+    plt.title(r"$u^*=0.3$")
     plt.xlabel('Time')
     plt.ylabel("Regret")
     plt.legend(loc="upper left")
