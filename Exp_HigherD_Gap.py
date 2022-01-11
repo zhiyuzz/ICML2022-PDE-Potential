@@ -82,6 +82,6 @@ plt.plot(settings, (final_sum["KT"] - final_sum["pos"]) / 1000, linestyle='--', 
 plt.xscale("log")
 
 plt.xlabel(r"$\gamma$ (log scale)")
-plt.ylabel("Saved regret compared to KT (x1000)")
+plt.ylabel("Saved loss compared to KT (x1000)")
 plt.title(r"$T=50000$")
 plt.savefig("Figures/HigherD_Gap.pdf", bbox_inches='tight')
