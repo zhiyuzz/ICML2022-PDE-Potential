@@ -14,9 +14,10 @@ For our one-dimensional experiment,
  - Exp_OneD_Setting3.py outputs Figure 3
  - Exp_OneD_Gap.py outputs Figure 1b
  - Exp_intuition.py outputs Figure 1c
+ - Exp_OneD_Stochastic.py outputs Figure 5
 
 For our higher-dimensional experiment, 
  - First download the dataset into the "Data" directory
  - Run Data_Processing_music.py for the pre-processing step
- - Exp_HigherD_RealData.py outputs Figure 5
- - Exp_HigherD_Gap.py outputs Figure 6
+ - Exp_HigherD_RealData.py outputs Figure 6
+ - Exp_HigherD_Gap.py outputs Figure 7
